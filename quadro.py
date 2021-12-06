@@ -24,9 +24,17 @@ class Quadro(object):
 
         self._dev.set_configuration()
         self.data = []
+
+    # call before
+    def __del__(self):
+        """Closes connection with the device and reattatches driver"""
+        usb.util.release_interface(self._dev, 1)
+        if self._had_driver:
+            self._dev.attach_kernel_driver(1)
     
     # read current config data from quadro
     def readConfig(self):
+        """read current config data from quadro and store in self.data"""
         bmRequestType=0xa1
         bRequest=0x01
         wValue=0x0303
@@ -34,21 +42,18 @@ class Quadro(object):
         wLength=1013
         self.data = self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex, data_or_wLength=wLength)   
 
-    # write config data to quadro
-    # not working, computation of checksum needed
     def writeConfig(self):
+        """write config data to quadro
+        not working, computation of checksum needed"""
+        # TODO calculate checksum in last two bytes of self.data
         bmRequestType=0x21
         bRequest=0x09
         wValue=0x0303
         wIndex=0x01
         self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex, data_or_wLength=self.data)
-    
-    def close(self):
-        usb.util.release_interface(self._dev, 1)
-        if self._had_driver:
-            self._dev.attach_kernel_driver(1)
 
     def readParameter(self, parameter):
+        """Returns value from self.data"""
         (positon, length) = parameter
         ret = 0
         for i in range(length):
@@ -56,6 +61,7 @@ class Quadro(object):
         return ret
 
     def writeParameter(self, value, parameter):
+
         (positon, length) = parameter
         for i in range(length-1,-1,-1):
             self.data[positon + i] = value % 0x100
