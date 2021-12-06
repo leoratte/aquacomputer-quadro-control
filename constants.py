@@ -1,7 +1,7 @@
 HOLD_MINIMAL = 0x1
 START_BOOST = 0x2
 
-# multipiers
+# multipliers
 PWM = 100
 
 
