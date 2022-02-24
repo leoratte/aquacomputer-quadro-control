@@ -1,6 +1,7 @@
 import usb
 import usb.core
 import usb.util
+import json
 from time import sleep
 
 from constants import *
@@ -40,7 +41,8 @@ class Quadro(object):
         wValue=0x0303
         wIndex=0x01
         wLength=1013
-        self.data = self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex, data_or_wLength=wLength)   
+        self.data = list(self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue,
+                wIndex=wIndex, data_or_wLength=wLength))
 
     def writeConfig(self):
         """write config data to quadro
@@ -50,7 +52,8 @@ class Quadro(object):
         bRequest=0x09
         wValue=0x0303
         wIndex=0x01
-        self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex, data_or_wLength=self.data)
+        self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex,
+                 data_or_wLength=self.data)
 
     def readParameter(self, parameter):
         """Returns value from self.data"""
@@ -61,7 +64,6 @@ class Quadro(object):
         return ret
 
     def writeParameter(self, value, parameter):
-
         (positon, length) = parameter
         for i in range(length-1,-1,-1):
             self.data[positon + i] = value % 0x100
@@ -74,15 +76,15 @@ class Quadro(object):
             line = line[4:].strip().split(' ')
             for element in line:
                 data.append(int(element,base=16))
-        self.data = data[0x40:]
+        self.data = list(data[0x40:])
         file.close()
 
     def importConfigJson(self, filename):
         file = open(filename,'rt')
-        # TODO
+        self.data = json.loads(file.read())
         file.close()
 
     def exportConfigJson(self, filename):
-        file = open(filename,'rt')
-        # TODO
+        file = open(filename,'wt')
+        file.write(json.dumps(self.data))
         file.close()
