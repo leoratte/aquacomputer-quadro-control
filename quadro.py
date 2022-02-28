@@ -3,7 +3,7 @@ import usb.core
 import usb.util
 import json
 
-from structure import QuadroConverter
+from converter import QuadroConverter
 
 
 class Quadro(object):
