@@ -13,6 +13,20 @@ class Quadro(object):
 
     def __init__(self):
         self._had_driver = False
+        self._dev = None
+        self.data = []
+        self.converter = QuadroConverter()
+
+    # call before
+    def __del__(self):
+        """Closes connection with the device and reattatches driver"""
+        if self._dev is None:
+            return
+        usb.util.release_interface(self._dev, 1)
+        if self._had_driver:
+            self._dev.attach_kernel_driver(1)
+
+    def connect(self):
         self._dev = usb.core.find(idVendor=Quadro.VID, idProduct=Quadro.PID)
 
         if self._dev is None:
@@ -23,19 +37,13 @@ class Quadro(object):
             self._had_driver = True
 
         self._dev.set_configuration()
-        self.data = []
-        self.converter = QuadroConverter()
-
-    # call before
-    def __del__(self):
-        """Closes connection with the device and reattatches driver"""
-        usb.util.release_interface(self._dev, 1)
-        if self._had_driver:
-            self._dev.attach_kernel_driver(1)
     
     # read current config data from quadro
     def readConfig(self):
         """read current config data from quadro and store in self.data"""
+        if self._dev is None:
+            print("device not connected")
+            return
         bmRequestType=0xa1
         bRequest=0x01
         wValue=0x0303
@@ -47,6 +55,9 @@ class Quadro(object):
     def writeConfig(self):
         """write config data to quadro
         not working, computation of checksum needed"""
+        if self._dev is None:
+            print("device not connected")
+            return
         # TODO calculate checksum in last two bytes of self.data
         bmRequestType=0x21
         bRequest=0x09
