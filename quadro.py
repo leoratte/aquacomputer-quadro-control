@@ -14,7 +14,6 @@ class Quadro(object):
     def __init__(self):
         self._had_driver = False
         self._dev = None
-        self.data = []
         self.converter = QuadroConverter()
 
     # call before
@@ -64,13 +63,7 @@ class Quadro(object):
         wValue=0x0303
         wIndex=0x01
         self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex,
-                 data_or_wLength=self.data)
-
-    # def writeParameter(self, value, parameter):
-    #     (positon, length) = parameter
-    #     for i in range(length-1,-1,-1):
-    #         self.data[positon + i] = value % 0x100
-    #         value //= 0x100
+                 data_or_wLength=self.converter.dataclassToArray(self.config))
 
     def importConfigHexDump(self, filename):
         file = open(filename,'rt')
@@ -93,5 +86,4 @@ class Quadro(object):
         file.close()
 
     def setData(self, data):
-        self.data = data
         self.config = self.converter.arrayToDataclass(data)

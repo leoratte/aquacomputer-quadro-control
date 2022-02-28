@@ -1,5 +1,31 @@
 # aquacomputer-quadro-control
-Attempt to control aquacomputer quadro in python.
+Control aquacomputer quadro in python from linux.
+
+## capabilities
+- read current configuration from device
+- import previously captured configuration (see capture config packets)
+- easily change value off:
+    - fan speed, control mode, control variables, ...
+    - sensor correction
+    - rgb brightness, rgb on/off
+
+## not implemented
+- full rgb controll
+
+## usage
+```
+from quadro import Quadro
+
+q = Quadro()
+q.connect()             # connect to usb device
+q.readConfig()          # read current config from quadro
+q.config.rgb.off=True   # change values in conig
+q.config.fans[1].pwm=55
+q.writeConfig()         # write new config back to quadro
+```
+
+
+
 
 ## capture config packets from aquasuite in linux
 1. load usbmon module
