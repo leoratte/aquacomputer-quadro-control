@@ -19,3 +19,7 @@ constants.py contains the addresses of some config values
 - http://www.ross.net/crc/crcpaper.html
 - https://www.cosc.canterbury.ac.nz/greg.ewing/essays/CRC-Reverse-Engineering.html
 - https://reveng.sourceforge.io/
+- https://media.ccc.de/v/eh16-27-how_to_reverese_crcs
+
+## CRC know values
+- polynom: 0xa001
