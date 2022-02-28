@@ -1,9 +1,5 @@
 # aquacomputer-quadro-control
-
 Attempt to control aquacomputer quadro in python.
-
-Currently not able to change the configuration on the device, as the checksum computation algorithm is unknown. I suspect it is some kind of CRC-16.  
-Feel free to find a solution to this problem.
 
 ## capture config packets from aquasuite in linux
 1. load usbmon module
@@ -18,7 +14,7 @@ Feel free to find a solution to this problem.
 - https://reveng.sourceforge.io/
 - https://media.ccc.de/v/eh16-27-how_to_reverese_crcs
 
-## CRC know properties
+## CRC properties
 ```
 width = 16
 poly = 0x8005
