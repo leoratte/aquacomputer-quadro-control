@@ -1,6 +1,5 @@
 #!/bin/python3
 from crc import CrcCalculator, Configuration
-import json
 
 import quadro
 
