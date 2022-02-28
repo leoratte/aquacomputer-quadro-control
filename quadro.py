@@ -2,9 +2,8 @@ import usb
 import usb.core
 import usb.util
 import json
-from time import sleep
 
-from constants import *
+from structure import QuadroConverter
 
 
 class Quadro(object):
@@ -25,6 +24,7 @@ class Quadro(object):
 
         self._dev.set_configuration()
         self.data = []
+        self.converter = QuadroConverter()
 
     # call before
     def __del__(self):
@@ -41,8 +41,8 @@ class Quadro(object):
         wValue=0x0303
         wIndex=0x01
         wLength=1013
-        self.data = list(self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue,
-                wIndex=wIndex, data_or_wLength=wLength))
+        self.setData(list(self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue,
+                wIndex=wIndex, data_or_wLength=wLength)))
 
     def writeConfig(self):
         """write config data to quadro
@@ -55,19 +55,11 @@ class Quadro(object):
         self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex,
                  data_or_wLength=self.data)
 
-    def readParameter(self, parameter):
-        """Returns value from self.data"""
-        (positon, length) = parameter
-        ret = 0
-        for i in range(length):
-            ret = ret * 0x100 + self.data[positon + i]
-        return ret
-
-    def writeParameter(self, value, parameter):
-        (positon, length) = parameter
-        for i in range(length-1,-1,-1):
-            self.data[positon + i] = value % 0x100
-            value //= 0x100
+    # def writeParameter(self, value, parameter):
+    #     (positon, length) = parameter
+    #     for i in range(length-1,-1,-1):
+    #         self.data[positon + i] = value % 0x100
+    #         value //= 0x100
 
     def importConfigHexDump(self, filename):
         file = open(filename,'rt')
@@ -76,15 +68,19 @@ class Quadro(object):
             line = line[4:].strip().split(' ')
             for element in line:
                 data.append(int(element,base=16))
-        self.data = list(data[0x40:])
+        self.setData(list(data[0x40:]))
         file.close()
 
     def importConfigJson(self, filename):
         file = open(filename,'rt')
-        self.data = json.loads(file.read())
+        self.setData(json.loads(file.read()))
         file.close()
 
     def exportConfigJson(self, filename):
         file = open(filename,'wt')
         file.write(json.dumps(self.data))
         file.close()
+
+    def setData(self, data):
+        self.data = data
+        self.config = self.converter.arrayToDataclass(data)
