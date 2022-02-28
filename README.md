@@ -12,14 +12,19 @@ Feel free to find a solution to this problem.
 
 [data](data/) contains usb packets sent by aquasuite
 
-## 
-constants.py contains the addresses of some config values
-
 ## CRC resources
 - http://www.ross.net/crc/crcpaper.html
 - https://www.cosc.canterbury.ac.nz/greg.ewing/essays/CRC-Reverse-Engineering.html
 - https://reveng.sourceforge.io/
 - https://media.ccc.de/v/eh16-27-how_to_reverese_crcs
 
-## CRC know values
-- polynom: 0xa001
+## CRC know properties
+```
+width = 16
+poly = 0x8005
+reverse_input = True
+reverse_output = True
+init_value = 0x0000
+final_xor_value = 0x426A
+```
+
