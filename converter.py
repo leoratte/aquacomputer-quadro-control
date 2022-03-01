@@ -1,6 +1,3 @@
-import profile
-from sys import flags
-from construct import Checksum
 from crc import CrcCalculator, Configuration
 
 from structure import *
