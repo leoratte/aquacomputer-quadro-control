@@ -45,16 +45,6 @@ q.config.fans[1].pwm=55
 q.writeConfig()         # write new config back to quadro
 ```
 
-
-
-
-## capture config packets from aquasuite in linux
-1. load usbmon module
-2. run aquasuite in windows vm and pass quadro to vm
-3. capture packets in wireshark from usbmon interface
-
-[data](data/) contains usb packets sent by aquasuite
-
 ## CRC resources
 - http://www.ross.net/crc/crcpaper.html
 - https://www.cosc.canterbury.ac.nz/greg.ewing/essays/CRC-Reverse-Engineering.html
