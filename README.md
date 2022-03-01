@@ -26,7 +26,7 @@ sudo pip install -r requirements.txt
 ```
 
 - udev rule 
-    - substitute <group> with own grout
+    - substitute `<group>` with own group
     - allows usage without root
     - may require reboot
 ```
