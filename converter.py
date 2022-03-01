@@ -21,16 +21,6 @@ class QuadroConverter(object):
         self.offset += length
         return ret/factor
 
-    # def convert(self, length=1, factor=1, signed=False):
-    #     ret = 0
-    #     for i in range(length):
-    #         ret = ret * 0x100 + self.arr[self.offset]
-    #         self.offset += 1
-    #     if signed and (ret & 0x8000):
-    #         print("test")
-    #         ret = ((ret -1) ^ 0xFFFF ) * -1
-    #     return ret/factor
-
     def pad(self, num):
         self.offset += num
 
