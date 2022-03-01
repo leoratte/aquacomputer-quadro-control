@@ -4,7 +4,7 @@ Control aquacomputer quadro in python from linux.
 ## capabilities
 - read current configuration from device
 - import previously captured configuration (see capture config packets)
-- easily change value off:
+- easily change value of:
     - fan speed, control mode, control variables, ...
     - sensor correction
     - rgb brightness, rgb on/off
