@@ -82,7 +82,7 @@ class Quadro(object):
 
     def exportConfigJson(self, filename):
         file = open(filename,'wt')
-        file.write(json.dumps(self.data))
+        file.write(json.dumps(self.converter.dataclassToArray(self.config)))
         file.close()
 
     def setData(self, data):
