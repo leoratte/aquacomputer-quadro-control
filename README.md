@@ -11,6 +11,27 @@ Control aquacomputer quadro in python from linux.
 
 ## not implemented
 - full rgb controll
+- config value validation (use at own risk)
+
+## installation
+- requirements:
+    - python3
+    - pip
+    - git
+
+```
+git clone https://github.com/leoratte/aquacomputer-quadro-control.git
+cd aquacomputer-quadro-control
+sudo pip install -r requirements.txt
+```
+
+- udev rule 
+    - substitute <group> with own grout
+    - allows usage without root
+    - may require reboot
+```
+echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="0c70", ATTRS{idProduct}=="f00d", GROUP="<group>", MODE="0660"' | sudo tee /lib/udev/rules.d/99-usb-quadro.rules
+```
 
 ## usage
 ```
