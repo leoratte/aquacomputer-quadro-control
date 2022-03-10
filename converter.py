@@ -24,7 +24,10 @@ class QuadroConverter(object):
     def pad(self, num):
         self.offset += num
 
-    def arrayToDataclass(self, array):
+    def arrayToDataclass(self, array: list):
+        assert len(array) == 961 
+        checksum = self.crc_calculator.calculate_checksum(array[:0x3bf])
+        assert int.from_bytes(array[0x3bf: ], 'big', signed=False) == checksum
         self.arr = array
         self.offset = 0x3
     
