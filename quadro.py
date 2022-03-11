@@ -65,7 +65,7 @@ class Quadro(object):
         self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex,
                  data_or_wLength=self.converter.dataclassToArray(self.config))
 
-    def importConfigHexDump(self, filename):
+    def importConfigHexDump(self, filename: str):
         file = open(filename,'rt')
         data = []
         for line in file:
@@ -75,15 +75,15 @@ class Quadro(object):
         self.setData(list(data[0x40:]))
         file.close()
 
-    def importConfigJson(self, filename):
+    def importConfigJson(self, filename: str):
         file = open(filename,'rt')
         self.setData(json.loads(file.read()))
         file.close()
 
-    def exportConfigJson(self, filename):
+    def exportConfigJson(self, filename: str):
         file = open(filename,'wt')
         file.write(json.dumps(self.converter.dataclassToArray(self.config)))
         file.close()
 
-    def setData(self, data):
+    def setData(self, data: list):
         self.config = self.converter.arrayToDataclass(data)
