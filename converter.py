@@ -19,7 +19,10 @@ class QuadroConverter(object):
     def convert(self, length=1, factor=1, signed=False):
         ret = int.from_bytes(self.arr[self.offset: self.offset + length], 'big', signed=signed)
         self.offset += length
-        return ret/factor
+        if factor > 1:
+            return ret/factor
+        else:
+            return ret
 
     def pad(self, num):
         self.offset += num
@@ -57,8 +60,7 @@ class QuadroConverter(object):
         for x in range(4):
             mode = FanCtrlMode(self.convert())
             pwm = self.convert(2,100)
-            self.pad(1)
-            temp_sensor = self.convert()
+            temp_sensor = self.convert(2,1)
             
             temp_target = self.convert(2,100)
             p = self.convert(2,1)
@@ -116,8 +118,7 @@ class QuadroConverter(object):
         for i in range(4):
             self.revert(dataclass.fans[i].mode.value)
             self.revert(dataclass.fans[i].pwm,2,100)
-            self.pad(1)
-            self.revert(dataclass.fans[i].temp_sensor)
+            self.revert(dataclass.fans[i].temp_sensor,2,1)
             self.revert(dataclass.fans[i].temp_target_vars.temp_target,2,100)
             self.revert(dataclass.fans[i].temp_target_vars.P,2,1)
             self.revert(dataclass.fans[i].temp_target_vars.I,2,1)

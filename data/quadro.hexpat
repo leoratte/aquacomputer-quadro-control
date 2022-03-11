@@ -44,8 +44,7 @@ struct CURVE_mode {
 struct Fan {
     Fan_ctrl_mode mode;
     be u16 pwm;
-    padding[1];
-    u8 temp_sensor;
+    u16 temp_sensor;
     TEMP_TARGET_mode temp_target_vars;
     padding[2];
     CURVE_mode curve_mode_vars;
