@@ -16,6 +16,7 @@ Control aquacomputer quadro in python from linux.
 ## installation
 - requirements:
     - python3
+    - python3-pyqt5
     - pip
     - git
 
@@ -35,14 +36,7 @@ echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="0c70", ATTRS{idProduct}=="f00d", GROUP
 
 ## usage
 ```
-from quadro import Quadro
-
-q = Quadro()
-q.connect()             # connect to usb device
-q.readConfig()          # read current config from quadro
-q.config.rgb.off=True   # change values in conig
-q.config.fans[1].pwm=55
-q.writeConfig()         # write new config back to quadro
+./quadro-control.py
 ```
 
 ## CRC resources
