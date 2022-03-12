@@ -16,8 +16,8 @@ class QuadroConverter(object):
         use_table = True
         self.crc_calculator = CrcCalculator(configuration, use_table)
 
-    def convert(self, length=1, factor=1, signed=False):
-        ret = int.from_bytes(self.arr[self.offset: self.offset + length], 'big', signed=signed)
+    def convert(self, length=1, factor=1):
+        ret = int.from_bytes(self.arr[self.offset: self.offset + length], 'big', signed=True)
         self.offset += length
         if factor > 1:
             return ret/factor
@@ -38,12 +38,12 @@ class QuadroConverter(object):
         self.pad(2)
 
         ticks_per_liter = self.convert(2,1)
-        correction_factor = self.convert(2,100,True)
+        correction_factor = self.convert(2,100)
         flow_sensor = FlowSensor(ticks_per_liter,correction_factor)
 
         temp_sensors = []
         for i in range(4):
-            temp_sensors.append(self.convert(2,100,True))
+            temp_sensors.append(self.convert(2,100))
 
         fan_setups = []
         for i in range(4):
@@ -95,7 +95,7 @@ class QuadroConverter(object):
     
     def revert(self,value, length=1,factor=1):
         value = int(value*factor)
-        vals = value.to_bytes(length,'big',signed=value<0)
+        vals = value.to_bytes(length,'big',signed=True)
         for i in range(length):
             self.arr[self.offset] = vals[i]
             self.offset += 1
