@@ -38,6 +38,10 @@ echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="0c70", ATTRS{idProduct}=="f00d", GROUP
 ```
 ./quadro-control.py
 ```
+1. connect to device
+2. read config from device
+3. change values in form
+4. write config to device 
 
 ## CRC resources
 - http://www.ross.net/crc/crcpaper.html
