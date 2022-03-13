@@ -17,7 +17,7 @@ class QuadroConverter(object):
         self.crc_calculator = CrcCalculator(configuration, use_table)
 
     def convert(self, length=1, factor=1):
-        ret = int.from_bytes(self.arr[self.offset: self.offset + length], 'big', signed=True)
+        ret = int.from_bytes(self.arr[self.offset: self.offset + length], 'big', signed=2==length)
         self.offset += length
         if factor > 1:
             return ret/factor
@@ -85,8 +85,8 @@ class QuadroConverter(object):
         self.offset = 0x18a
         brightness = self.convert()
         self.pad(1)
-        off = bool(int(self.convert()) & 2)
-        rgb = RGB(brightness, off)
+        on = not bool(int(self.convert()) & 2)
+        rgb = RGB(brightness, on)
 
         self.offset = 0x3bd
         profile = self.convert()
@@ -95,7 +95,7 @@ class QuadroConverter(object):
     
     def revert(self,value, length=1,factor=1):
         value = int(value*factor)
-        vals = value.to_bytes(length,'big',signed=True)
+        vals = value.to_bytes(length,'big',signed=2==length)
         for i in range(length):
             self.arr[self.offset] = vals[i]
             self.offset += 1
@@ -134,7 +134,7 @@ class QuadroConverter(object):
         self.offset = 0x18a
         self.revert(dataclass.rgb.brightness)
         self.pad(1)
-        self.revert(dataclass.rgb.off << 1)
+        self.revert((not dataclass.rgb.on) << 1)
         self.offset = 0x3bd
         self.revert(dataclass.profile)
         self.arr = self.arr[:0x3bf]

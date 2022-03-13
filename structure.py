@@ -51,7 +51,7 @@ class Fan:
 @dataclass
 class RGB:
     brightness: int
-    off: bool
+    on: bool
 
 @dataclass
 class QuadroConfig:
