@@ -4,6 +4,7 @@ import usb.util
 import json
 
 from converter import QuadroConverter
+from structure import QuadroConfig
 
 
 class Quadro(object):
@@ -14,6 +15,7 @@ class Quadro(object):
     def __init__(self):
         self._had_driver = False
         self._dev = None
+        self.config = QuadroConfig()
         self.converter = QuadroConverter()
 
     # call before
@@ -86,4 +88,4 @@ class Quadro(object):
         file.close()
 
     def setData(self, data: list):
-        self.config = self.converter.arrayToDataclass(data)
+        self.converter.arrayToConfig(data, self.config)

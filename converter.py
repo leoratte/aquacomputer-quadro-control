@@ -55,71 +55,57 @@ class QuadroConverter(object):
     def pad(self, num):
         self.offset += num
 
-    def arrayToDataclass(self, array: list):
+    def arrayToConfig(self, array: list, config: QuadroConfig):
         assert len(array) == 961 
         checksum = self.crc_calculator.calculate_checksum(array[:0x3bf])
         assert int.from_bytes(array[0x3bf: ], 'big', signed=False) == checksum
         self.arr = array
         self.offset = 0x3
     
-        aquabus = self.convert()
+        config.aquabus = self.convert()
         self.pad(2)
 
-        ticks_per_liter = self.convert(2,1)
-        correction_factor = self.convert(2,100)
-        flow_sensor = FlowSensor(ticks_per_liter,correction_factor)
+        config.flow_sensor.ticks_per_liter = self.convert(2,1)
+        config.flow_sensor.correction_factor = self.convert(2,100)
 
-        temp_sensors = []
         for i in range(4):
-            temp_sensors.append(self.convert(2,100))
+            config.temp_sensors[i] = self.convert(2,100)
 
-        fan_setups = []
         for i in range(4):
             flags = int(self.convert())
-            hold_min_power = bool(flags & 1)
-            start_boost = bool(flags & 2)
-            min_percent = self.convert(2,100)
-            max_percent = self.convert(2,100)
-            fallback = self.convert(2,100)
-            graph_rpm = self.convert(2,1)
-            fan_setups.append(FanSetup(hold_min_power, start_boost, min_percent, max_percent, fallback, graph_rpm))
+            config.fan_setups[i].hold_min_power = bool(flags & 1)
+            config.fan_setups[i].start_boost = bool(flags & 2)
+            config.fan_setups[i].min_percent = self.convert(2,100)
+            config.fan_setups[i].max_percent = self.convert(2,100)
+            config.fan_setups[i].fallback = self.convert(2,100)
+            config.fan_setups[i].graph_rpm = self.convert(2,1)
 
-        fans = []
-        for x in range(4):
-            mode = FanCtrlMode(self.convert())
-            pwm = self.convert(2,100)
-            temp_sensor = self.convert(2,1)
+        for i in range(4):
+            config.fans[i].mode = FanCtrlMode(self.convert())
+            config.fans[i].pwm = self.convert(2,100)
+            config.fans[i].temp_sensor = self.convert(2,1)
             
-            temp_target = self.convert(2,100)
-            p = self.convert(2,1)
-            i = self.convert(2,1)
-            d1 = self.convert(2,1)
-            d2 = self.convert(2,100)
-            hysteresis = self.convert(2,100)
-            temp_target_vars = TempTargetMode(temp_target, p, i, d1, d2, hysteresis)
+            config.fans[i].temp_target_vars.temp_target = self.convert(2,100)
+            config.fans[i].temp_target_vars.P = self.convert(2,1)
+            config.fans[i].temp_target_vars.I = self.convert(2,1)
+            config.fans[i].temp_target_vars.D1 = self.convert(2,1)
+            config.fans[i].temp_target_vars.D2 = self.convert(2,100)
+            config.fans[i].temp_target_vars.hysteresis = self.convert(2,100)
             self.pad(2)
             
-            start_temp = self.convert(2,100)
-            temp = []
-            for i in range(16):
-                temp.append(self.convert(2,100))
-            percent = []
-            for i in range(16):
-                percent.append(self.convert(2,100))
-            curve_mode_vars = Curve_mode(start_temp, temp, percent)
-
-            fans.append(Fan(mode, pwm, temp_sensor, temp_target_vars, curve_mode_vars))
+            config.fans[i].curve_mode_vars.start_temp = self.convert(2,100)
+            for x in range(16):
+                config.fans[i].curve_mode_vars.temp[x] = self.convert(2,100)
+            for x in range(16):
+                config.fans[i].curve_mode_vars.percent[x] = self.convert(2,100)
 
         self.offset = 0x18a
-        brightness = self.convert()
+        config.rgb.brightness = self.convert()
         self.pad(1)
-        on = not bool(int(self.convert()) & 2)
-        rgb = RGB(brightness, on)
+        config.rgb.on = not bool(int(self.convert()) & 2)
 
         self.offset = 0x3bd
-        profile = self.convert()
-
-        return QuadroConfig(aquabus, flow_sensor, temp_sensors, fan_setups, fans, rgb, profile)
+        config.profile = self.convert()
     
     def revert(self,value, length=1,factor=1):
         value = int(value*factor)
