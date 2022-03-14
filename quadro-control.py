@@ -29,7 +29,7 @@ class Window(QMainWindow):
 
         self.q = quadro.Quadro()
         self.q.importConfigJson('config.json')
-        self.forms = [AquaForm]
+        self.forms = []
         self.generateInputFields()
         self._createMenu()
         self._createCentralWidget()
