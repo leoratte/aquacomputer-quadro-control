@@ -28,11 +28,12 @@ class Window(QMainWindow):
         self.setWindowTitle('Quadro Control')
 
         self.q = quadro.Quadro()
-        self.q.importConfigJson('config.json')
         self.forms = []
         self.generateInputFields()
         self._createMenu()
         self._createCentralWidget()
+
+        self.configToForm()
 
     def _createMenu(self):
         self.menu = self.menuBar()
@@ -86,10 +87,12 @@ class Window(QMainWindow):
 
         mainLayout.addLayout(first)
 
+        # fans
         fans = FanForm(self.q.config.fan_setups, self.q.config.fans)
         self.forms.append(fans)
         mainLayout.addLayout(fans.layout)
 
+        # rgb
         rgb = RGBForm(self.q.config.rgb)
         self.forms.append(rgb)
         mainLayout.addLayout(rgb.layout)
