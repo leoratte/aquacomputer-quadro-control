@@ -1,6 +1,34 @@
 from crc import CrcCalculator, Configuration
+from abc import ABC, abstractstaticmethod
 
 from structure import *
+
+class AquaConverter(ABC):
+    def convert(offset: int, arr: list, length=1, factor=1):
+        ret = int.from_bytes(arr[offset: offset + length], 'big', signed=2==length)
+        offset += length
+        if factor > 1:
+            ret = ret/factor
+        return offset, ret
+
+    def revert(offset: int, arr: list, value, length=1,factor=1):
+        value = int(value*factor)
+        vals = value.to_bytes(length,'big',signed=2==length)
+        for i in range(length):
+            arr[offset] = vals[i]
+            offset += 1
+        return offset
+
+    @abstractstaticmethod
+    def arrayToDataClass(array):
+        pass
+
+    @abstractstaticmethod
+    def dataclassToArray(array, dataclass):
+        pass
+
+class FlowConverter(AquaConverter):
+    pass
 
 
 class QuadroConverter(object):
