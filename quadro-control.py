@@ -2,22 +2,18 @@
 import sys
 
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QFormLayout
 from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtWidgets import QComboBox
 from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QHBoxLayout
-from PyQt5.QtWidgets import QCheckBox
 
 
 import quadro
-from structure import FanCtrlMode
 
-from inputForms import AquaForm, FlowSensorForm, FanForm, RGBForm, TempSensorForm
+from inputForms import FlowSensorForm, FanForm, RGBForm, TempSensorForm
 
 
 class Window(QMainWindow):
