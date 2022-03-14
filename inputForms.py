@@ -34,7 +34,7 @@ class AquaForm(ABC):
 
 
 class FlowSensorForm(AquaForm):
-    def __init__(self,flow_sensor: FlowSensor) -> None:
+    def __init__(self, flow_sensor: FlowSensor) -> None:
         self.flow_sensor = flow_sensor
         self._createInputFields()
         self._createForm()
@@ -57,6 +57,7 @@ class FlowSensorForm(AquaForm):
     def formToConfig(self):
         self.flow_sensor.ticks_per_liter = int(self.flowticks.text())
         self.flow_sensor.correction_factor = float(self.flowcorrection.text())
+        print(self.flow_sensor)
 
 
 class TempSensorForm(AquaForm):
@@ -86,7 +87,7 @@ class TempSensorForm(AquaForm):
         
 
 class FanForm(AquaForm):
-    def __init__(self,fan_setups:list[FanSetup], fans:list[Fan]) -> None:
+    def __init__(self, fan_setups:list[FanSetup], fans:list[Fan]) -> None:
         self.fan_setups = fan_setups
         self.fans = fans
         self._createInputFields()
