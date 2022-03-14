@@ -108,8 +108,8 @@ class FanForm(AquaForm):
             form.addRow('target temp', self.temptarget[i])
             form.addRow('P', self.p[i])
             form.addRow('I', self.i[i])
-            form.addRow('D1', self.d[i])
-            form.addRow('D2', self.resettime[i])
+            form.addRow('D', self.d[i])
+            form.addRow('reset time', self.resettime[i])
             form.addRow('hysteresis', self.hysteresis[i])
 
             # curve mode
