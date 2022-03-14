@@ -1,5 +1,5 @@
 # aquacomputer-quadro-control
-Control aquacomputer quadro in python from linux.
+Control aquacomputer quadro from linux.
 
 ## capabilities
 - read current configuration from device
