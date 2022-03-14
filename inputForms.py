@@ -57,7 +57,6 @@ class FlowSensorForm(AquaForm):
     def formToConfig(self):
         self.flow_sensor.ticks_per_liter = int(self.flowticks.text())
         self.flow_sensor.correction_factor = float(self.flowcorrection.text())
-        print(self.flow_sensor)
 
 
 class TempSensorForm(AquaForm):
