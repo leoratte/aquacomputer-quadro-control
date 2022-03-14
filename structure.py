@@ -30,8 +30,8 @@ class TempTargetMode:
     temp_target: float = 35.0
     P: int = 0
     I: int = 0
-    D1: int = 0
-    D2: float = 0.0
+    D: int = 0
+    reset_time: float = 0.0
     hysteresis: float = 0.0
 
 @dataclass

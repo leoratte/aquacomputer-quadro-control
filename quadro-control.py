@@ -46,8 +46,7 @@ class Window(QMainWindow):
 
     def _write(self):
         self.formToConfig()
-        # self.q.writeConfig()
-        print(self.q.config)
+        self.q.writeConfig()
 
     def _import(self):
         filename = QFileDialog.getOpenFileName(filter="JSON Files (*.json)")[0]

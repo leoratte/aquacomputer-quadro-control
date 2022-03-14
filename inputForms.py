@@ -108,8 +108,8 @@ class FanForm(AquaForm):
             form.addRow('target temp', self.temptarget[i])
             form.addRow('P', self.p[i])
             form.addRow('I', self.i[i])
-            form.addRow('D1', self.d1[i])
-            form.addRow('D2', self.d2[i])
+            form.addRow('D1', self.d[i])
+            form.addRow('D2', self.resettime[i])
             form.addRow('hysteresis', self.hysteresis[i])
 
             # curve mode
@@ -139,8 +139,8 @@ class FanForm(AquaForm):
             self.fans[i].temp_target_vars.temp_target = float(self.temptarget[i].text())
             self.fans[i].temp_target_vars.P = int(self.p[i].text())
             self.fans[i].temp_target_vars.I = int(self.i[i].text())
-            self.fans[i].temp_target_vars.D1 = int(self.d1[i].text())
-            self.fans[i].temp_target_vars.D2 = float(self.d2[i].text())
+            self.fans[i].temp_target_vars.D = int(self.d[i].text())
+            self.fans[i].temp_target_vars.reset_time = float(self.resettime[i].text())
             self.fans[i].temp_target_vars.hysteresis = float(self.hysteresis[i].text())
 
             # curve mode
@@ -173,8 +173,8 @@ class FanForm(AquaForm):
             self.temptarget[i].setText(str(self.fans[i].temp_target_vars.temp_target))
             self.p[i].setText(str(self.fans[i].temp_target_vars.P))
             self.i[i].setText(str(self.fans[i].temp_target_vars.I))
-            self.d1[i].setText(str(self.fans[i].temp_target_vars.D1))
-            self.d2[i].setText(str(self.fans[i].temp_target_vars.D2))
+            self.d[i].setText(str(self.fans[i].temp_target_vars.D))
+            self.resettime[i].setText(str(self.fans[i].temp_target_vars.reset_time))
             self.hysteresis[i].setText(str(self.fans[i].temp_target_vars.hysteresis))
 
             # curve mode
@@ -200,8 +200,8 @@ class FanForm(AquaForm):
         self.temptarget = []
         self.p = []
         self.i = []
-        self.d1 = []
-        self.d2 = []
+        self.d = []
+        self.resettime = []
         self.hysteresis = []
 
         #curve mode
@@ -226,8 +226,8 @@ class FanForm(AquaForm):
             self.temptarget.append(QLineEdit())
             self.p.append(QLineEdit())
             self.i.append(QLineEdit())
-            self.d1.append(QLineEdit())
-            self.d2.append(QLineEdit())
+            self.d.append(QLineEdit())
+            self.resettime.append(QLineEdit())
             self.hysteresis.append(QLineEdit())
 
             self.fanstarttemp.append(QLineEdit())
