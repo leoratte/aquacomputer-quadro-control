@@ -45,8 +45,8 @@ class Fan:
     mode: FanCtrlMode = FanCtrlMode.PWM
     pwm: int = 100
     temp_sensor: int = -1
-    temp_target_vars: TempTargetMode = TempTargetMode()
-    curve_mode_vars: Curve_mode = Curve_mode()
+    temp_target_vars: TempTargetMode = field(default_factory=lambda: TempTargetMode())
+    curve_mode_vars: Curve_mode = field(default_factory=lambda: Curve_mode())
 
 @dataclass
 class RGB:
@@ -56,10 +56,10 @@ class RGB:
 @dataclass
 class QuadroConfig:
     aquabus: int = 28
-    flow_sensor: FlowSensor = FlowSensor()
+    flow_sensor: FlowSensor = field(default_factory=lambda: FlowSensor())
     temp_sensors: list[float] = field(default_factory=lambda: [0.0, 0.0, 0.0, 0.0])
     fan_setups: list[FanSetup] = field(default_factory=lambda: [FanSetup(), FanSetup(), FanSetup(), FanSetup()])
     fans: list[Fan] = field(default_factory=lambda: [Fan(), Fan(), Fan(), Fan()])
-    rgb: RGB = RGB()
+    rgb: RGB = field(default_factory=lambda: RGB())
     profile: int = 1
 
