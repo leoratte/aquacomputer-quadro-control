@@ -1,6 +1,8 @@
 # aquacomputer-quadro-control
 Control aquacomputer quadro from linux.
 
+Tested under Manjaro and Ubuntu 21.10 with aquacomputer quadro running firmware 1028.
+
 ## capabilities
 - read current configuration from device
 - import previously captured configuration (see capture config packets)
