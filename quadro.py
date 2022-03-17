@@ -2,6 +2,7 @@ import usb
 import usb.core
 import usb.util
 import json
+import time
 
 from converter import QuadroConverter
 from structure import QuadroConfig
@@ -59,13 +60,19 @@ class Quadro(object):
         if self._dev is None:
             print("device not connected")
             return
-        # TODO calculate checksum in last two bytes of self.data
         bmRequestType=0x21
         bRequest=0x09
         wValue=0x0303
         wIndex=0x01
         self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex,
                  data_or_wLength=self.converter.dataclassToArray(self.config))
+        time.sleep(0.5)
+        bmRequestType=0x21
+        bRequest=0x09
+        wValue=0x0202
+        wIndex=0x01
+        self._dev.ctrl_transfer(bmRequestType, bRequest, wValue=wValue, wIndex=wIndex,
+                 data_or_wLength=[0x2, 0, 0, 0, 0x2, 0, 0, 0, 0, 0x34, 0xc6])
 
     def importConfigHexDump(self, filename: str):
         file = open(filename,'rt')
