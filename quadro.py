@@ -20,7 +20,7 @@ class Quadro(object):
         self.converter = QuadroConverter()
 
     # call before
-    def __del__(self):
+    def disconnect(self):
         """Closes connection with the device and reattatches driver"""
         if self._dev is None:
             return

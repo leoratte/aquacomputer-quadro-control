@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QHBoxLayout
+from PyQt5.QtWidgets import QMessageBox
 
 
 import quadro
@@ -30,12 +31,30 @@ class Window(QMainWindow):
         self._createCentralWidget()
 
         self.configToForm()
+        try:
+            self.q.connect()
+            self._read()
+        except ValueError:
+            msg = QMessageBox()
+            msg.setWindowTitle("Error")
+            msg.setText("Could not detect device")
+            # msg.setIcon(QMessageBox.Error)
+            # msg.setStandardButtons(QMessageBox.Cancel|QMessageBox.Retry|QMessageBox.Ignore)
+            # msg.setDefaultButton(QMessageBox.Retry)
+            # msg.setInformativeText("informative text, ya!")
+            # msg.setDetailedText("details")
+            msg.exec_()
+
+    
+    def closeEvent(self, event):
+        self.q.disconnect()
 
     def _createMenu(self):
         self.menu = self.menuBar()
         # self.menu.addAction('&Exit', self.close)
-        self.menu.addAction('&Connect to Device', self.q.connect)
-        self.menu.addAction('&Read Config from Device', self._read)
+        # self.menu.addAction('&Connect to Device', self.q.connect)
+        # self.menu.addAction('&Disconnect Device', self.q.disconnect)
+        # self.menu.addAction('&Read Config from Device', self._read)
         self.menu.addAction('&Write Config to Device', self._write)
         self.menu.addAction('&Import JSON', self._import)
         self.menu.addAction('&Export JSON', self._export)
