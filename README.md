@@ -37,7 +37,7 @@ echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="0c70", ATTRS{idProduct}=="f00d", GROUP
 
 ## usage
 ```
-./quadro-control.py
+quadro-control
 ```
 1. connect to device
 2. read config from device
