@@ -1,4 +1,5 @@
-from crc import CrcCalculator, Configuration
+from crccheck.crc import Crc16Usb
+
 from abc import ABC, abstractstaticmethod
 
 from structure import *
@@ -34,15 +35,6 @@ class FlowConverter(AquaConverter):
 class QuadroConverter(object):
     def __init__(self):
         self.offset = 0
-        width=16
-        poly=0x8005
-        reverse_input=True
-        reverse_output=True
-        init_value=0x0000
-        final_xor_value=0x426A
-        configuration = Configuration(width, poly, init_value, final_xor_value, reverse_input, reverse_output)
-        use_table = True
-        self.crc_calculator = CrcCalculator(configuration, use_table)
 
     def convert(self, length=1, factor=1):
         ret = int.from_bytes(self.arr[self.offset: self.offset + length], 'big', signed=2==length)
@@ -57,7 +49,7 @@ class QuadroConverter(object):
 
     def arrayToConfig(self, array: list, config: QuadroConfig):
         assert len(array) == 961 
-        checksum = self.crc_calculator.calculate_checksum(array[:0x3bf])
+        checksum = Crc16Usb.calc(array[1:0x3bf])
         assert int.from_bytes(array[0x3bf: ], 'big', signed=False) == checksum
         self.arr = array
         self.offset = 0x3
@@ -152,6 +144,6 @@ class QuadroConverter(object):
         self.offset = 0x3bd
         self.revert(dataclass.profile)
         self.arr = self.arr[:0x3bf]
-        checksum = self.crc_calculator.calculate_checksum(self.arr)
+        checksum = Crc16Usb.calc(self.arr[1:])
         self.arr.extend(int(checksum).to_bytes(2,'big',signed=False))
         return self.arr

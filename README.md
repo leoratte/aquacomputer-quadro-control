@@ -54,12 +54,4 @@ echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="0c70", ATTRS{idProduct}=="f00d", GROUP
 - https://media.ccc.de/v/eh16-27-how_to_reverese_crcs
 
 ## CRC properties
-```
-width = 16
-poly = 0x8005
-reverse_input = True
-reverse_output = True
-init_value = 0x0000
-final_xor_value = 0x426A
-```
-
+CRC-16/USB
