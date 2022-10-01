@@ -18,14 +18,13 @@ Tested under Manjaro and Ubuntu 21.10 with aquacomputer quadro running firmware 
 ## installation
 - requirements:
     - python3
-    - python3-pyqt5
     - pip
-    - git
 
 ```
 git clone https://github.com/leoratte/aquacomputer-quadro-control.git
 cd aquacomputer-quadro-control
-sudo pip install -r requirements.txt
+python -m build
+pip install .
 ```
 
 - udev rule 

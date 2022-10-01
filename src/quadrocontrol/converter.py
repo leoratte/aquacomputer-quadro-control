@@ -2,7 +2,7 @@ from crccheck.crc import Crc16Usb
 
 from abc import ABC, abstractstaticmethod
 
-from structure import *
+from quadrocontrol import structure
 
 class AquaConverter(ABC):
     def convert(offset: int, arr: list, length=1, factor=1):
@@ -47,7 +47,7 @@ class QuadroConverter(object):
     def pad(self, num):
         self.offset += num
 
-    def arrayToConfig(self, array: list, config: QuadroConfig):
+    def arrayToConfig(self, array: list, config: structure.QuadroConfig):
         assert len(array) == 961 
         checksum = Crc16Usb.calc(array[1:0x3bf])
         assert int.from_bytes(array[0x3bf: ], 'big', signed=False) == checksum
@@ -73,7 +73,7 @@ class QuadroConverter(object):
             config.fan_setups[i].graph_rpm = self.convert(2,1)
 
         for i in range(4):
-            config.fans[i].mode = FanCtrlMode(self.convert())
+            config.fans[i].mode = structure.FanCtrlMode(self.convert())
             config.fans[i].pwm = self.convert(2,100)
             config.fans[i].temp_sensor = self.convert(2,1)
             
@@ -106,7 +106,7 @@ class QuadroConverter(object):
             self.arr[self.offset] = vals[i]
             self.offset += 1
 
-    def dataclassToArray(self, dataclass: QuadroConfig):
+    def dataclassToArray(self, dataclass: structure.QuadroConfig):
         self.offset = 0x3
         self.revert(dataclass.aquabus)
         self.pad(2)

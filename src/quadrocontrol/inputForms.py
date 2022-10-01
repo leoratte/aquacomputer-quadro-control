@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QCheckBox
 
 from abc import ABC, abstractmethod
 
-from structure import RGB, FlowSensor, FanSetup, Fan,FanCtrlMode
+from quadrocontrol import structure
 
 
 class AquaForm(ABC):
@@ -29,7 +29,7 @@ class AquaForm(ABC):
 
 
 class FlowSensorForm(AquaForm):
-    def __init__(self, flow_sensor: FlowSensor) -> None:
+    def __init__(self, flow_sensor: structure.FlowSensor) -> None:
         self.flow_sensor = flow_sensor
         self._createInputFields()
         self._createForm()
@@ -81,7 +81,7 @@ class TempSensorForm(AquaForm):
         
 
 class FanForm(AquaForm):
-    def __init__(self, fan_setups:list[FanSetup], fans:list[Fan]) -> None:
+    def __init__(self, fan_setups:list[structure.FanSetup], fans:list[structure.Fan]) -> None:
         self.fan_setups = fan_setups
         self.fans = fans
         self._createInputFields()
@@ -131,7 +131,7 @@ class FanForm(AquaForm):
             self.fan_setups[i].max_percent = float(self.fanmax[i].text())
             self.fan_setups[i].fallback = float(self.fallback[i].text())
        
-            self.fans[i].mode = FanCtrlMode(int(self.fanmode[i].currentIndex()))
+            self.fans[i].mode = structure.FanCtrlMode(int(self.fanmode[i].currentIndex()))
             self.fans[i].pwm = float(self.fanpwm[i].text())
             self.fans[i].temp_sensor = int(self.fantempsrc[i].text())
 
@@ -238,7 +238,7 @@ class FanForm(AquaForm):
 
 
 class RGBForm(AquaForm):
-    def __init__(self, rgb: RGB) -> None:
+    def __init__(self, rgb: structure.RGB) -> None:
         self.rgb = rgb
         self._createInputFields()
         self._createForm()

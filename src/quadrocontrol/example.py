@@ -1,5 +1,5 @@
 #!/bin/python3
-from quadro import Quadro
+from quadrocontrol import quadro.Quadro as Quadro
 
 q = Quadro()
 q.connect()             # connect to usb device

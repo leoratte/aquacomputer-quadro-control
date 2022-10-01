@@ -12,9 +12,9 @@ from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5.QtWidgets import QMessageBox
 
 
-import quadro
+from quadrocontrol import quadro
 
-from inputForms import FlowSensorForm, FanForm, RGBForm, TempSensorForm
+from quadrocontrol import inputForms
 
 
 class Window(QMainWindow):
@@ -90,24 +90,24 @@ class Window(QMainWindow):
         form.addRow('aquabus', self.aquabus)
         first.addLayout(form)
 
-        flowsensor = FlowSensorForm(self.q.config.flow_sensor)
+        flowsensor = inputForms.FlowSensorForm(self.q.config.flow_sensor)
         self.forms.append(flowsensor)
         first.addLayout(flowsensor.layout)
 
         # temp sensor settings
-        tempsensors = TempSensorForm(self.q.config.temp_sensors)
+        tempsensors = inputForms.TempSensorForm(self.q.config.temp_sensors)
         self.forms.append(tempsensors)
         first.addLayout(tempsensors.layout)
 
         mainLayout.addLayout(first)
 
         # fans
-        fans = FanForm(self.q.config.fan_setups, self.q.config.fans)
+        fans = inputForms.FanForm(self.q.config.fan_setups, self.q.config.fans)
         self.forms.append(fans)
         mainLayout.addLayout(fans.layout)
 
         # rgb
-        rgb = RGBForm(self.q.config.rgb)
+        rgb = inputForms.RGBForm(self.q.config.rgb)
         self.forms.append(rgb)
         mainLayout.addLayout(rgb.layout)
 
@@ -128,7 +128,7 @@ class Window(QMainWindow):
         self.aquabus = QLineEdit()
 
 
-if __name__ == '__main__':
+def main():
     app = QApplication(sys.argv)
     win = Window()
     win.show()

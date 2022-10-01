@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "quadrocontrol"
+version = "0.1"
+authors = [
+  { name="Leonard Anderweit", email="leonard.anderweit@gmail.com" },
+]
+description = "GUI control for Aquacomputer Quadro"
+readme = "README.md"
+repository = "https://github.com/leoratte/aquacomputer-quadro-control"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "pyusb",
+  "crccheck",
+  "pyqt5"
+]
+
+
+[project.scripts]
+quadro-control = "quadrocontrol:quadrocontrol.main"
+
+[project.urls]
+"Homepage" = "https://github.com/leoratte/aquacomputer-quadro-control"
+"Bug Tracker" = "https://github.com/leoratte/aquacomputer-quadro-control/issues"

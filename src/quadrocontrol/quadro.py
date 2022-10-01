@@ -4,8 +4,8 @@ import usb.util
 import json
 import time
 
-from converter import QuadroConverter
-from structure import QuadroConfig
+from quadrocontrol import converter
+from quadrocontrol import structure
 
 
 class Quadro(object):
@@ -16,8 +16,8 @@ class Quadro(object):
     def __init__(self):
         self._had_driver = False
         self._dev = None
-        self.config = QuadroConfig()
-        self.converter = QuadroConverter()
+        self.config = structure.QuadroConfig()
+        self.converter = converter.QuadroConverter()
 
     # call before
     def disconnect(self):
